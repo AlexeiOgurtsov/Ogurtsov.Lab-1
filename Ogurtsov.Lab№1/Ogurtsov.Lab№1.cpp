@@ -53,6 +53,8 @@ loop: // GOTO use to reusable console
 	cout << "-----------------------------------------" << endl;
 	DisplayArray(a, n - m);
 	cout << "-Initial(reversed) array" << endl << endl;
+	delete[] a;
+	delete[] b;
 	int w;
 	cout << "Do you want to continue?" << endl;
 	cout << "1.Yes" << endl;
