@@ -14,54 +14,54 @@ void DisplayNumberOfZero(double* a, int n);
 int NumberOfZero(double a);
 void IsDataValidSize(int &n);
 void IsDataValidNumber(int &t);
-double* OtherArray(double* a, int t, int y, int n, int &m, int &l);
-void ReversedInitialArray(double* a, int n, int m, int l);
+double* OtherArray(double* a, int t, int y, int &n, int &r);
 
 int main(){
-loop: // GOTO use to reusable console
-	system("cls");
-	int n, t, y;
-	IsDataValidSize(n);
-	system("cls");
-	IsDataValidNumber(t);
-	system("cls");
-	IsDataValidNumber(y);
-	system("cls");
-	double* a = AllocArray(n);
-	system("cls");
-	DisplayArray(a, n);
-	cout << " -Initial array" << endl;
-	cout << "-----------------------------------------" << endl;
-	DisplayBinaryNumber(a, n);
-	cout << endl;
-	cout << "-----------------------------------------" << endl;
-	DisplayNumberOfOne(a, n);
-	cout << endl;
-	DisplayNumberOfZero(a, n);
-	cout << endl;
-	cout << "-----------------------------------------" << endl;
-	BubbleSort(a, n);
-	DisplayArray(a, n);
-	cout << " -Sorted array" << endl;
-	cout << "-----------------------------------------" << endl;
-	int m = 0;
-	int l = 0;
-	double* b = OtherArray(a, t, y, n, m, l);
-	DisplayArray(b, m);
-	cout << "-Other Array" << endl;
-	ReversedInitialArray(a, n, m, l);
-	cout << "-----------------------------------------" << endl;
-	DisplayArray(a, n - m);
-	cout << "-Initial(reversed) array" << endl << endl;
-	delete[] a;
-	delete[] b;
-	int w;
-	cout << "Do you want to continue?" << endl;
-	cout << "1.Yes" << endl;
-	cout << "2.No" << endl;
-	cin >> w;
-	if (w == 1) goto loop;
-	return 0;
+	while (true){
+		int n, t, y;
+		IsDataValidSize(n);
+		system("cls");
+		IsDataValidNumber(t);
+		system("cls");
+		IsDataValidNumber(y);
+		system("cls");
+		double* a = AllocArray(n);
+		system("cls");
+		DisplayArray(a, n);
+		cout << " -Initial array" << endl;
+		cout << "-----------------------------------------" << endl;
+		DisplayBinaryNumber(a, n);
+		cout << endl;
+		cout << "-----------------------------------------" << endl;
+		DisplayNumberOfOne(a, n);
+		cout << endl;
+		DisplayNumberOfZero(a, n);
+		cout << endl;
+		cout << "-----------------------------------------" << endl;
+		BubbleSort(a, n);
+		DisplayArray(a, n);
+		cout << " -Sorted array" << endl;
+		cout << "-----------------------------------------" << endl;
+		int m = 0;
+		int l = 0;
+		int r = 0;
+		double* b = OtherArray(a, t, y, n, r);
+		DisplayArray(b, r);
+		cout << "-Other Array" << endl;
+		cout << "-----------------------------------------" << endl;
+		DisplayArray(a, n);
+		cout << "-Initial(reversed) array" << endl << endl;
+		delete[] a;
+		delete[] b;
+		int w;
+		cout << "Do you want to continue?" << endl;
+		cout << "1.Yes" << endl;
+		cout << "2.No" << endl;
+		cin >> w;
+		if (w == 2) return 0;
+		system("cls");
+		continue;
+	}
 }
 double* AllocArray(int n)
 {
@@ -87,10 +87,15 @@ void BubbleSort(double* a, int n)
 	}
 }
 
-double* OtherArray(double* a, int t, int y, int n, int &m, int &l)
+double* OtherArray(double* a, int t, int y, int &n, int &r)
 {
 	double *b = new double[n];
 	int k = 0;
+	for (int p = 0; p < n; p++)
+	{
+		if (NumberOfOne(a[p]) == t && NumberOfZero(a[p]) == y)
+			r++;
+	}
 	for (int i = 0, j = 0; i < n; i++)
 	{
 		if (NumberOfOne(a[i]) == t && NumberOfZero(a[i]) == y)
@@ -98,17 +103,15 @@ double* OtherArray(double* a, int t, int y, int n, int &m, int &l)
 			b[j] = a[i];
 			j++;
 			k++;
-			l = i;
+			for (int q = i; q < n; q++)
+			{
+				a[q] = a[q + 1];
+			}
+			n--;
+			i--;
 		}
 	}
-	m = k;
 	return b;
-}
-
-void ReversedInitialArray(double* a, int n, int m, int l)
-{
-	for (int i = l; i < n - m; i++)
-		a[i] = a[i + m];
 }
 
 void Swap(double &x, double &y)
